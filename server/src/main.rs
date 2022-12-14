@@ -1,6 +1,7 @@
 use std::{
     io::Read,
     net::{Ipv4Addr, SocketAddrV4},
+    thread,
 };
 
 fn main() {
@@ -8,6 +9,29 @@ fn main() {
     // listen
     let listener = std::net::TcpListener::bind(socket).unwrap();
     // accept
+
+    for stream in listener.incoming() {
+        match stream {
+            Ok(mut stream) => {
+                thread::spawn(move || {
+                    // connection succeeded
+                    loop {
+                        let mut buf = [0; 1024];
+                        match stream.read(&mut buf) {
+                            Ok(_) => {
+                                let s = std::str::from_utf8(&buf).unwrap();
+                                println!("we are here, {}", s);
+                            }
+                            Err(e) => println!("failed to read from socket; err = {:?}", e),
+                        }
+                    }
+                });
+            }
+            Err(sth) => {
+                println!("Error! {:?}", sth);
+            }
+        }
+    }
 
     // read
     loop {

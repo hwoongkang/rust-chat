@@ -1,5 +1,14 @@
+use std::io::Write;
+
 fn main() {
     // socket connect to 127.0.0.1:8000 all at once
-    let stream = std::net::TcpStream::connect("127.0.0.1:8000").unwrap();
-    println!("{:?}", stream);
+    let mut stream = std::net::TcpStream::connect("127.0.0.1:8000").unwrap();
+
+    loop {
+        // write
+        let mut input = String::new();
+        std::io::stdin().read_line(&mut input).unwrap();
+        stream.write(input.as_bytes()).unwrap();
+    }
+    //println!("{:?}", stream);
 }
