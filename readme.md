@@ -5,3 +5,7 @@
 Workspace로 구성하여 Server와 Client를 일단 한 번에 관리해보려 합니다.
 
 타입도 공유할 수 있을 것 같구요.
+
+## TODO
+
+[ ] Arrow input이 CLI Output을 "해킹"함
