@@ -14,13 +14,14 @@ fn main() {
         match stream {
             Ok(mut stream) => {
                 thread::spawn(move || {
+                    println!("New connection from : {}", stream.peer_addr().unwrap());
                     // connection succeeded
                     loop {
                         let mut buf = [0; 1024];
                         match stream.read(&mut buf) {
                             Ok(_) => {
                                 let s = std::str::from_utf8(&buf).unwrap();
-                                println!("we are here, {}", s);
+                                println!("New message: {}", s);
                             }
                             Err(e) => println!("failed to read from socket; err = {:?}", e),
                         }
@@ -30,23 +31,6 @@ fn main() {
             Err(sth) => {
                 println!("Error! {:?}", sth);
             }
-        }
-    }
-
-    // read
-    loop {
-        match listener.accept() {
-            Ok((mut stream, _)) => {
-                let mut buf = [0; 1024];
-                match stream.read(&mut buf) {
-                    Ok(_) => {
-                        let s = std::str::from_utf8(&buf).unwrap();
-                        println!("we are here, {}", s);
-                    }
-                    Err(e) => println!("failed to read from socket; err = {:?}", e),
-                }
-            }
-            Err(e) => println!("failed to accept socket; err = {:?}", e),
         }
     }
 }

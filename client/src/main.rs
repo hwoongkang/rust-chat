@@ -8,7 +8,6 @@ fn main() {
         // write
         let mut input = String::new();
         std::io::stdin().read_line(&mut input).unwrap();
-        stream.write(input.as_bytes()).unwrap();
+        stream.write(input.trim().as_bytes()).unwrap();
     }
-    //println!("{:?}", stream);
 }
